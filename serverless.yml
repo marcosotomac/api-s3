@@ -1,14 +1,14 @@
-org: geraldocolchado
+org: marcosotomac
 service: api-s3
 
 provider:
   name: aws
-  runtime: python3.13	
+  runtime: python3.11
   # Default memory size for functions (default: 256MB)
   memorySize: 256
   timeout: 20
   iam:
-    role: arn:aws:iam::447891120606:role/LabRole
+    role: arn:aws:iam::967418674262:role/LabRole
 
 functions:
   lista_buckets:
@@ -25,6 +25,32 @@ functions:
     events:
       - http:
           path: /s3/bucket/lista-objetos
+          method: post
+          cors: true
+          integration: lambda
+  crear_bucket:
+    handler: crear_bucket.lambda_handler
+    events:
+      - http:
+          path: /s3/crear-bucket
+          method: post
+          cors: true
+          integration: lambda
+  crear_directorio_bucket:
+    handler: crear_directorio_bucket.lambda_handler
+    events:
+      - http:
+          path: /s3/bucket/crear-directorio
+          method: post
+          cors: true
+          integration: lambda
+  subir_archivo_bucket:
+    handler: subir_archivo_bucket.lambda_handler
+    memorySize: 512
+    timeout: 30
+    events:
+      - http:
+          path: /s3/bucket/subir-archivo
           method: post
           cors: true
           integration: lambda
